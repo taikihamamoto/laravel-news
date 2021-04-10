@@ -2,3 +2,215 @@
     width: 500px;
     border-radius: 4px;
 }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 720px;
+    max-width: 1080px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+button, input, select, textarea {
+    font-family : inherit;
+    font-size   : 100%;
+}
+
+/*--------------------------------------------------
+  Header
+---------------------------------------------------*/
+.main-header {
+    margin-bottom: 20px;
+}
+
+.main-header .nav-bar {
+    background-color: rgba(0, 255, 0, 0.3);
+    padding-left: 10px;
+    line-height: 40px;
+    font-style: italic;
+    font-size: 24px;
+}
+
+.main-header .nav-link {
+    text-decoration: none;
+}
+
+.main-header .nav-link:link,
+.main-header .nav-link:visited,
+.main-header .nav-link:hover,
+.main-header .nav-link:active {
+    color: black;
+}
+
+/*--------------------------------------------------
+  index page
+---------------------------------------------------*/
+.form-post {
+    max-width: 650px;
+}
+
+.form-post .content-header {
+    margin-left: 1.0rem;
+}
+
+.form-post .input-title,
+.form-post .input-body,
+.form-post .input-submit {
+    margin-bottom: 10px;
+}
+
+.form-post label {
+    display: inline-block;
+    width: 100px;
+    padding-top: 0.1rem;
+    vertical-align: top;
+    text-align: right;
+}
+
+.form-post .input-title input,
+.form-post .input-body textarea {
+    width: 500px;
+    border-radius: 4px;
+}
+
+.form-post .input-title input {
+    height: 1.4rem;
+}
+
+.form-post .input-body textarea {
+    resize: none;
+    height: 200px;
+}
+
+.form-post .input-submit {
+    text-align: right;
+}
+
+.form-post .btn-submit {
+    display: inline-block;
+    margin-right: 50px;
+    padding: 7px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #FFF;
+    background-image: linear-gradient(45deg, #FFC107 0%, #ff8b5f 100%);
+    transition: 1.0s;
+}
+
+.form-post .btn-submit:hover {
+    background-image: linear-gradient(45deg, #FFC107 0%, #f76a35 100%);
+}
+
+.post {
+    margin-left: 1.0rem;
+}
+
+.post .post-body{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 40px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.0rem;
+    margin-bottom: 1.0rem;
+    list-style: none;
+}
+
+.pagination .page-link {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    text-decoration: none;
+}
+
+/*--------------------------------------------------
+  show page
+---------------------------------------------------*/
+.post-detail {
+    margin-right: 1.0rem;
+    margin-left: 1.0rem;
+}
+
+.form-comment .input-body,
+.comment .input-body {
+    display: inline-block;
+    position: relative;
+    margin-left: 1.0rem;
+}
+
+.form-comment .post-it,
+.comment .post-it {
+    resize: none;
+    height: 8.5rem;
+    width: 10.5rem;
+    margin-top: 30px;
+    margin-left: 20px;
+    border: none;
+    padding: 1.0em;
+    overflow: hidden;
+    box-shadow: 0 .5rem 0.5rem hsla(0, 0%, 0%, .1);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+.form-comment .post-it-blue,
+.comment .post-it-blue {
+    background-image:
+        linear-gradient(180deg, hsla(0, 0%, 45%, .1) 2rem, hsla(0, 100%, 100%, 0) 2.5rem),
+        linear-gradient(180deg, hsla(200, 100%, 85%, 1), hsla(200, 100%, 85%, 1));
+}
+
+.form-comment .post-it-red,
+.comment .post-it-red {
+    background-image:
+        linear-gradient(180deg, hsla(0, 0%, 45%, .1) 2rem, hsla(0, 100%, 100%, 0) 2.5rem),
+        linear-gradient(180deg, hsla(15, 100%, 85%, 1), hsla(15, 100%, 85%, 1));
+}
+
+.form-comment .post-it-yellow,
+.comment .post-it-yellow {
+    background-image:
+        linear-gradient(180deg, hsla(0, 0%, 45%, .1) 2rem, hsla(0, 100%, 100%, 0) 2.5rem),
+        linear-gradient(180deg, hsla(60, 100%, 85%, 1), hsla(60, 100%, 85%, 1));
+}
+
+.form-comment .btn-submit {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #f2fcff;
+    border: dashed 1px #67c5ff;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.form-comment .btn-submit:hover {
+    border-style: dotted;
+    color: #679efd;
+}
+
+.comments {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.comment .btn-submit {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+    display: inline-block;
+    padding: 0.5em 1em;
+    color: blue;
+    text-decoration: underline;
+    background: none;
+    border: none;
+}
+
+.comment .btn-submit:hover {
+    color: red;
+}

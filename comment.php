@@ -69,6 +69,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="home.css">
     <title>Laravel News</title>
 </head>
 <body>
@@ -102,7 +103,7 @@
             <div>
             <div><?php echo $value["comment"]; ?></div>
             <input type="hidden" name="delete" value="<?php echo $value["commentnum"];?>">
-            <inputｓ type="submit" name="deleteSend" value="コメントを消す">
+            <input type="submit" name="deleteSend" value="コメントを消す">
         </div>
         <?php endif; ?>
         <?php endif; ?>
