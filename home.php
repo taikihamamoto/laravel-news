@@ -88,11 +88,13 @@ function submitChk() {
     <title>Laravel News</title>
 </head>
 <body>
-    <nav>
-        <a href="home.php">Laravel News</a>
+    <nav class="main-header">
+        <div class="nav-bar">
+            <a href="home.php" class="nav-link">Laravel News</a>
+        </div>
     </nav>
-    <section>
-        <h2>さぁ、最新のニュースをシェアしましょう！</h2>
+    <section class="form-post">
+        <h2 class="comment-header">さぁ、最新のニュースをシェアしましょう！</h2>
         <?php if(!empty($error_message)): ?>
             <ul class="error_message">
                 <?php foreach($error_message as $value): ?>
@@ -100,7 +102,7 @@ function submitChk() {
                     <?php endforeach;?>
             </ul>
         <?php endif;?>
-        <form method="POST" action="home.php" onsubmit="return submitChk()">
+        <form id="formPost" method="POST" action="home.php" onsubmit="return submitChk()">
             <div class="input-title">
                 <label for="title">タイトル：</label>
                 <input name="title" type="text" value="">
