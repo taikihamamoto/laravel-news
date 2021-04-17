@@ -1,18 +1,5 @@
 <?php
-    $user = 'root';
-    $password = 'root';
-    $db = 'laravel_news';
-    $host = 'localhost';
-    $port = 3306;
-    $link = mysqli_init();
-    $success = mysqli_real_connect(
-        $link,
-        $host,
-        $user,
-        $password,
-        $db,
-        $port
-    );
+    // SQL接続
     $username = 'laravel_user';
     $pass = 'C78A]cuWUh_]65k';
     $dsn = 'mysql:host=localhost;dbname=laravel_news;';
@@ -37,7 +24,7 @@
     $comments_stmt = $dbh->query($comments_sql);
     //commentSQLの結果を受け取る
     $comments_result = $comments_stmt->fetchall(PDO::FETCH_ASSOC);
-    define("commentBox","comment.txt");
+
     $id = $_GET["id"];
     $commentText = "";
     $error_message = array();
@@ -47,14 +34,7 @@
     if(empty($id)){
         exit("idがありません");
     }
-    // 投稿番号の定義
-    foreach($comment_result as $column){ 
-    //最後の行にプラス1
-        $lines=$comment_result;
-        $lastline= $lines[count($lines) - 1];
-        $num=explode(",",$lastline);
-        $lastnum=$num[0]+1;
-    }
+    // コメントform実行
     if( !empty($_POST["commentSend"])){
         // commentの確認
         if(empty($_POST["comment"])){
@@ -72,31 +52,29 @@
         // commentsテーブルに挿入
         if(empty($error_message)){
             $sql = 'INSERT INTO 
-                        comments (id,news_id,comment) 
+                        comments (news_id,comment) 
                     VALUES 
-                        (:id,:news_id,:comment)';
+                        (:news_id,:comment)';
             $comments_stmt = $dbh->prepare($sql);
-            $params = array(':id' => $lastnum,':news_id'=> $id,':comment' => $clean["comment"]);
+            $params = array(':news_id'=> $id,':comment' => $clean["comment"]);
             $comments_stmt->execute($params);
             header('Location: ' . $_SERVER['REQUEST_URI']);
             //プログラム終了
             exit;
         }
     }
+    //削除form実行
     if (isset($_POST['deleteSend'])) {
         // commentsテーブルから削除
         $delete = $_POST['delete'];
-        foreach($comments_result as $column){
-            if($delete == $column["id"]){
                 $sql = 'DELETE FROM 
                             comments 
                         WHERE
                             id=:id';
             $comments_stmt = $dbh->prepare($sql);
-            $params = array(':id' => $column["id"]);
+            $params = array(':id' => $delete);
             $comments_stmt->execute($params);
-            }
-        }
+            
         header('Location: ' . $_SERVER['REQUEST_URI']);
     //プログラム終了
     exit;

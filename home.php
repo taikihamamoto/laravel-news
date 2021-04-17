@@ -1,18 +1,4 @@
 <?php
-    $user = 'root';
-    $password = 'root';
-    $db = 'laravel_news';
-    $host = 'localhost';
-    $port = 3306;
-    $link = mysqli_init();
-    $success = mysqli_real_connect(
-        $link,
-        $host,
-        $user,
-        $password,
-        $db,
-        $port
-    );
     // SQL接続
     $username = 'laravel_user';
     $pass = 'C78A]cuWUh_]65k';
@@ -31,20 +17,12 @@
     //newsSQLの結果を受け取る
     $news_result = $news_stmt->fetchall(PDO::FETCH_ASSOC);
 
-    define("TOUKOU","toukou.txt");
     $title = "";
     $body = "";
     $error_message = array();
     $clean = array();
     $titleLimit =30;
-    // 投稿番号の定義
-    foreach($news_result as $column){ 
-        //最後の行にプラス1
-            $lines=$news_result;
-            $lastline= $lines[count($lines) - 1];
-            $num=explode(",",$lastline);
-            $lastnum=$num[0]+1;
-        }
+    // 投稿form実行
     if( !empty($_POST["send"])){
         // titleの確認
         if(empty($_POST["title"])){
@@ -70,11 +48,11 @@
         // newsテーブルに挿入
         if(empty($error_message)){
             $sql = 'INSERT INTO 
-                        news (id,title,body) 
+                        news (title,body) 
                     VALUES 
-                        (:id,:title,:body)';
+                        (:title,:body)';
             $news_stmt = $dbh->prepare($sql);
-            $params = array(':id' => $lastnum,':title'=> $clean["title"],':body' => $clean["body"]);
+            $params = array(':title'=> $clean["title"],':body' => $clean["body"]);
             $news_stmt->execute($params);
             header('Location: ' . $_SERVER['REQUEST_URI']);
         //プログラム終了
