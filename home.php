@@ -1,77 +1,65 @@
-<?php 
-    $user = 'root';
-    $password = 'root';
-    $db = 'laravel_news';
-    $host = 'localhost';
-    $port = 3306;
-    $link = mysqli_init();
-    $success = mysqli_real_connect(
-        $link,
-        $host,
-        $user,
-        $password,
-        $db,
-        $port
-    );
-    define("TOUKOU","toukou.txt");
+<?php
+    // SQL接続
+    $username = 'laravel_user';
+    $pass = 'C78A]cuWUh_]65k';
+    $dsn = 'mysql:host=localhost;dbname=laravel_news;';
+    try{
+        $dbh = new PDO($dsn,$username,$pass,[
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        ]);
+    }catch(Exception $e){
+        echo '接続失敗'.$e->getMessage();
+    }
+    //newsSQLの準備
+    $news_sql = 'SELECT * FROM news ORDER BY id DESC';
+    //newsSQLの実行
+    $news_stmt = $dbh->query($news_sql);
+    //newsSQLの結果を受け取る
+    $news_result = $news_stmt->fetchall(PDO::FETCH_ASSOC);
+
     $title = "";
     $body = "";
-    $message =array();
-    $message_array =array();
     $error_message = array();
     $clean = array();
-    $fp = fopen(TOUKOU, "a+");
     $titleLimit =30;
-    /*投稿番号の定義*/
-    if ( file_exists( TOUKOU ) ) { /*ファイルの存在確認。*/
-    //最後の行にプラス1
-        $lines=file(TOUKOU);
-        $lastline= $lines[count($lines) - 1];
-        $num=explode(",",$lastline);
-        $lastnum=$num[0]+1;
-    } else { /*ファイルが無かった場合変数の定義を１とする*/
-    $num = 1;
-    }
+    // 投稿form実行
     if( !empty($_POST["send"])){
+        // titleの確認
         if(empty($_POST["title"])){
             $error_message[] = "タイトルは必須です。";
         }
+        // titleの文字数制限
         elseif(strlen($_POST["title"]) > $titleLimit){
             $error_message[] = "タイトルは３０文字以内です。";
         }
+        // titleの整形
         else{
             $clean["title"] = htmlspecialchars( $_POST["title"], ENT_QUOTES);
             $clean["title"] = preg_replace( '/\\r\\n|\\n|\\r/', '', $clean['title']);
         }
+        // bodyの確認
         if(empty($_POST["body"])){
             $error_message[] = "記事は必須です。";
+        // bodyの整形
         }else{
             $clean["body"] = htmlspecialchars( $_POST["body"], ENT_QUOTES);
             $clean["body"] = preg_replace( '/\\r\\n|\\n|\\r/', '<br>', $clean['body']);
         }
+        // newsテーブルに挿入
         if(empty($error_message)){
-            if($fp = fopen(TOUKOU, "a")){
-                $title = $_POST["title"];
-                $body = $_POST["body"];
-                $data = "".$lastnum.",".$clean['title'].",".$clean['body']."\n";
-                fwrite($fp,$data);
-                fclose($fp);
-                
-            }
+            $sql = 'INSERT INTO 
+                        news (title,body) 
+                    VALUES 
+                        (:title,:body)';
+            $news_stmt = $dbh->prepare($sql);
+            $params = array(':title'=> $clean["title"],':body' => $clean["body"]);
+            $news_stmt->execute($params);
+            header('Location: ' . $_SERVER['REQUEST_URI']);
+        //プログラム終了
+        exit;
         }
     }
-    if($fp = fopen(TOUKOU, "r")){
-        while ($data = fgets($fp)){
-            $splitData = explode(",",$data);
-            $message = array(
-                "num" => $splitData[0],
-                "title" => $splitData[1],
-                "body" => $splitData[2]
-            );
-            array_unshift($message_array, $message);
-        }
-        fclose($fp);
-    }
+    
 ?>
 <script>
 function submitChk() {
@@ -84,7 +72,7 @@ function submitChk() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="home.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Laravel News</title>
 </head>
 <body>
@@ -117,14 +105,14 @@ function submitChk() {
             </div>
         </form>
     </section>
-    <section>
+    <section class="posts">
         <?php
-        if(!empty($message_array)): ?>
-        <?php foreach($message_array as $value): ?>
-        <div>
-            <h3><?php echo $value["title"]; ?></h3>
-            <p><?php echo $value["body"]; ?></p>
-            <a href="comment.php?id=<?php echo  $value["num"]; ?>&title=<?php echo $value["title"]; ?>&body=<?php echo $value["body"]; ?>">記事全文・コメントを見る</a>
+        if(!empty($news_result)): ?>
+        <?php foreach($news_result as $column): ?>
+        <div class="post">
+            <h3 class="post-title"><?php echo $column["title"]; ?></h3>
+            <p class="post-body"><?php echo $column["body"]; ?></p>
+            <a href="comment.php?id=<?php echo  $column["id"]; ?>">記事全文・コメントを見る</a>
         </div>
         <?php endforeach; ?>
         <?php endif; ?>
